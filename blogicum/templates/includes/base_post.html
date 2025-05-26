@@ -1,0 +1,11 @@
+ <!-- Блок для реализации постов index & category -->
+<ul>     
+  <li><strong>Место:</strong> {{ post.location }}</li>
+  <li><strong>Дата:</strong> {{ post.date }}</li>
+  <li>
+    <strong>Категория:</strong>
+    <a href="{% url 'blog:category_posts' post.category %}">
+      {{ post.category }}
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,14 @@
+ <!-- Блок для реализации одного поста -->
+{% extends "base.html" %}
+
+{% block title %}
+  {{ post.location }}. {{ post.date }}
+{% endblock %}
+
+{% block content %}
+<ul class="list-unstyled">
+{% include 'includes/base_post.html' %}
+<p class="mt-2">{{ post.text|linebreaksbr  }}</p>
+<a href="{% url 'blog:post_detail' post.id %}">
+</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+ <!-- Блок для реализации всех постов на главной странице -->
+{% extends "base.html" %}
+
+{% block title %}Лента записей{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Лента записей</h1>
+    <!-- Информация подтянется из blog/post_list.html -->
+    {% include 'includes/post_list.html' %}
+{% endblock %}
