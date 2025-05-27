@@ -94,7 +94,7 @@ class Post(PublishedModel):
     """Модель поста."""
 
     title = models.CharField(
-        max_length=256,
+        max_length={MAX_TITLE_LEN},
         verbose_name='Заголовок',
         help_text=(f'Публикация, не более {MAX_TITLE_LEN} символов'),
     )

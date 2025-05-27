@@ -39,7 +39,6 @@ def category_posts(request: HttpRequest, category_slug: str) -> HttpResponse:
         slug=category_slug,
         is_published=True
     )
-    # Выборка повторяется выше - можно вынести в функцию
     posts = get_published_posts().filter(category=category)
 
     context = {
