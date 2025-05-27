@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS: list = []
 
+# Максимальная длина заголовка для моделей
+MAX_TITLE_LEN = 256
+
+# Максимальная длина отображаемой строки в __str__ методах
+MAX_STR_LEN = 15
+
+# Максимальная длина постов на главной страницы
+MAX_LEN_POST = 5
 
 # Application definition
 

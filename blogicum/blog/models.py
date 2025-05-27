@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from blogicum.settings import MAX_TITLE_LEN, MAX_STR_LEN
+
 from typing import TYPE_CHECKING
+
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser  # noqa
@@ -36,10 +39,12 @@ class Category(PublishedModel):
     """Модель категории"""
 
     title = models.CharField(
-        max_length=256,
+        max_length=MAX_TITLE_LEN,
         verbose_name='Заголовок',
         null=False,
-        help_text='Тематическая категория, не более 256 символов'
+        help_text=(
+            f'Тематическая категория, не более {MAX_TITLE_LEN} символов'
+        )
     )
     description = models.TextField('Описание', blank=False)
     slug = models.SlugField(
@@ -58,17 +63,20 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self) -> str:
-        return self.title
+        return (
+            self.title[:MAX_STR_LEN]
+            + ('...' if len(self.title) > MAX_STR_LEN else '')
+        )
 
 
 class Location(PublishedModel):
     """Модель локации."""
 
     name = models.CharField(
-        max_length=256,
+        max_length=MAX_TITLE_LEN,
         verbose_name='Название места',
         null=False,
-        help_text='Географическая метка, не более 256 символов'
+        help_text=(f'Географическая метка, не более {MAX_TITLE_LEN} символов')
     )
 
     class Meta:
@@ -76,7 +84,10 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self) -> str:
-        return self.name
+        return (
+            self.title[:MAX_STR_LEN]
+            + ('...' if len(self.title) > MAX_STR_LEN else '')
+        )
 
 
 class Post(PublishedModel):
@@ -85,14 +96,15 @@ class Post(PublishedModel):
     title = models.CharField(
         max_length=256,
         verbose_name='Заголовок',
-        help_text='Публикация, не более 256 символов',
+        help_text=(f'Публикация, не более {MAX_TITLE_LEN} символов'),
     )
     text = models.TextField('Текст', null=False)
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
         null=False,
-        help_text='Если установить дату и время в будущем — '
-        'можно делать отложенные публикации.'
+        help_text=('Если установить дату и время в будущем — '
+                   'можно делать отложенные публикации.'
+                   )
     )
     author = models.ForeignKey(
         User,
@@ -124,4 +136,7 @@ class Post(PublishedModel):
         ordering = ['-pub_date']
 
     def __str__(self) -> str:
-        return self.title
+        return (
+            self.title[:MAX_STR_LEN]
+            + ('...' if len(self.title) > MAX_STR_LEN else '')
+        )

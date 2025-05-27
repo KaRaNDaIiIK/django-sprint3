@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Category, Location, Post
 
+from .models import Category, Location, Post
 
 admin.site.empty_value_display = 'Планета Земля'
 
@@ -10,6 +10,7 @@ class PostInline(admin.StackedInline):
     extra = 1
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     inlines = (
         PostInline,
@@ -19,6 +20,7 @@ class CategoryAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     inlines = (
         PostInline,
@@ -28,6 +30,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -47,9 +50,3 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('category', 'location',)
     list_display_links = ('title',)
-
-
-# Обязательно регистрируем модели в админке:
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Location, LocationAdmin)
-admin.site.register(Post, PostAdmin)
