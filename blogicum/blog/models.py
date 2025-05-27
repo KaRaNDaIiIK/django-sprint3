@@ -15,10 +15,12 @@ class PublishedModel(models.Model):
     is_published = models.BooleanField(
         'Опубликовано',
         default=True,
-        null=False
+        null=False,
+        help_text='Снимите галочку, чтобы скрыть публикацию.'
+
     )
     created_at = models.DateTimeField(
-        'Дата добавления',
+        'Добавлено',
         auto_now_add=True,
         editable=False,
         null=False,
@@ -33,20 +35,21 @@ class Category(PublishedModel):
 
     title = models.CharField(
         max_length=256,
-        verbose_name='Название',
+        verbose_name='Заголовок',
         null=False,
         help_text='Тематическая категория, не более 256 символов'
     )
     description = models.TextField('Описание', blank=False)
     slug = models.SlugField(
         unique=True,
-        verbose_name='Слаг',
+        verbose_name='Идентификатор',
         null=False,
-        db_index=True
+        db_index=True,
+        help_text=('Уникальный идентификатор для URL')
     )
 
     class Meta:
-        verbose_name = 'Категория'
+        verbose_name = 'категория'
         verbose_name_plural = 'Категории'
 
     def __str__(self) -> str:
@@ -58,14 +61,14 @@ class Location(PublishedModel):
 
     name = models.CharField(
         max_length=256,
-        verbose_name='Название',
+        verbose_name='Название места',
         null=False,
         help_text='Географическая метка, не более 256 символов'
     )
 
     class Meta:
-        verbose_name = 'Локация'
-        verbose_name_plural = 'Локации'
+        verbose_name = 'местоположение'
+        verbose_name_plural = 'Местоположения'
 
     def __str__(self) -> str:
         return self.name
@@ -79,16 +82,21 @@ class Post(PublishedModel):
 
     title = models.CharField(
         max_length=256,
-        verbose_name='Название',
+        verbose_name='Заголовок',
         help_text='Публикация, не более 256 символов',
     )
     text = models.TextField('Описание', null=False)
-    pub_date = models.DateTimeField('Дата', null=False)
+    pub_date = models.DateTimeField(
+        'Дата и время публикации',
+        null=False,
+        help_text='Если установить дату и время в будущем —'
+        'можно делать отложенные публикации.'
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name='Автор',
+        related_name='author_posts',
+        verbose_name='Автор публикации',
         null=False
     )
 
@@ -96,7 +104,7 @@ class Post(PublishedModel):
         Location,
         on_delete=models.SET_NULL,
         related_name='posts',
-        verbose_name='Локация',
+        verbose_name='Местоположение',
         null=True
     )
 
@@ -104,13 +112,14 @@ class Post(PublishedModel):
         Category,
         on_delete=models.SET_NULL,
         verbose_name='Категория',
-        related_name='posts',
+        related_name='category_posts',
         null=True
     )
 
     class Meta:
-        verbose_name = 'Пост'
-        verbose_name_plural = 'Посты'
+        verbose_name = 'публикация'
+        verbose_name_plural = 'Публикации'
+        ordering = ['-pub_date']
 
     def __str__(self) -> str:
         return self.title
