@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser  # noqa
 
+User = get_user_model()
+
 
 class PublishedModel(models.Model):
     """
@@ -45,7 +47,9 @@ class Category(PublishedModel):
         verbose_name='Идентификатор',
         null=False,
         db_index=True,
-        help_text=('Уникальный идентификатор для URL')
+        help_text=(
+        'Идентификатор страницы для URL; разрешены символы латиницы, '
+        'цифры, дефис и подчёркивание.'
     )
 
     class Meta:
@@ -74,9 +78,6 @@ class Location(PublishedModel):
         return self.name
 
 
-User = get_user_model()
-
-
 class Post(PublishedModel):
     """Модель поста."""
 
@@ -85,11 +86,11 @@ class Post(PublishedModel):
         verbose_name='Заголовок',
         help_text='Публикация, не более 256 символов',
     )
-    text = models.TextField('Описание', null=False)
+    text = models.TextField('Текст', null=False)
     pub_date = models.DateTimeField(
-        'Дата и время публикации',
+        verbose_name='Дата и время публикации',
         null=False,
-        help_text='Если установить дату и время в будущем —'
+        help_text='Если установить дату и время в будущем — '
         'можно делать отложенные публикации.'
     )
     author = models.ForeignKey(
