@@ -85,8 +85,8 @@ class Location(PublishedModel):
 
     def __str__(self) -> str:
         return (
-            self.title[:MAX_STR_LEN]
-            + ('...' if len(self.title) > MAX_STR_LEN else '')
+            self.name[:MAX_STR_LEN]
+            + ('...' if len(self.name) > MAX_STR_LEN else '')
         )
 
 
