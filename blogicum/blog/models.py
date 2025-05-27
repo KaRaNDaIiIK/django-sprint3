@@ -8,8 +8,10 @@ if TYPE_CHECKING:
 
 class PublishedModel(models.Model):
     """
-    Абстрактная модель. Добвляет флаг публикации и дату создания.
+    Абстрактная модель.
+    Добвляет флаг публикации и дату создания.
     """
+
     is_published = models.BooleanField(
         'Опубликовано',
         default=True,
@@ -27,9 +29,8 @@ class PublishedModel(models.Model):
 
 
 class Category(PublishedModel):
-    """
-    Модель категории.
-    """
+    """Модель категории"""
+
     title = models.CharField(
         max_length=256,
         verbose_name='Название',
@@ -53,9 +54,8 @@ class Category(PublishedModel):
 
 
 class Location(PublishedModel):
-    """
-    Модель локации.
-    """
+    """Модель локации."""
+
     name = models.CharField(
         max_length=256,
         verbose_name='Название',
@@ -75,9 +75,8 @@ User = get_user_model()
 
 
 class Post(PublishedModel):
-    """
-    Модель поста.
-    """
+    """Модель поста."""
+
     title = models.CharField(
         max_length=256,
         verbose_name='Название',
