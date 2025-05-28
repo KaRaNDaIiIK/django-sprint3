@@ -24,14 +24,15 @@ class PublishedModel(models.Model):
         default=True,
         null=False,
         help_text='Снимите галочку, чтобы скрыть публикацию.'
-
     )
+
     created_at = models.DateTimeField(
         'Добавлено',
         auto_now_add=True,
         editable=False,
         null=False,
-        db_index=True)
+        db_index=True
+    )
 
     class Meta:
         abstract = True
