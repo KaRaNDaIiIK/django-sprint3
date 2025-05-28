@@ -1,19 +1,10 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils import timezone
 
-from blog.models import Category, Post
+from blog.models import Category
+from blog.utils import get_published_posts
 
 from blogicum.settings import MAX_LEN_POST
-
-
-def get_published_posts():
-    """Возвращает queryset опубликованных постов."""
-    return Post.objects.filter(
-        is_published=True,
-        pub_date__lte=timezone.now(),
-        category__is_published=True
-    ).select_related('category', 'location', 'author').order_by('-pub_date')
 
 
 def index(request: HttpRequest) -> HttpResponse:

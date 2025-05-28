@@ -1,8 +1,10 @@
+from typing import TYPE_CHECKING
+
 from django.db import models
 from django.contrib.auth import get_user_model
-from blogicum.settings import MAX_TITLE_LEN, MAX_STR_LEN
 
-from typing import TYPE_CHECKING
+from blog.utils import trim_text
+from blogicum.settings import MAX_TITLE_LEN, MAX_STR_LEN
 
 
 if TYPE_CHECKING:
@@ -63,10 +65,7 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self) -> str:
-        return (
-            self.title[:MAX_STR_LEN]
-            + ('...' if len(self.title) > MAX_STR_LEN else '')
-        )
+        return trim_text(self.title, MAX_STR_LEN)
 
 
 class Location(PublishedModel):
@@ -84,10 +83,7 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self) -> str:
-        return (
-            self.name[:MAX_STR_LEN]
-            + ('...' if len(self.name) > MAX_STR_LEN else '')
-        )
+        return trim_text(self.title, MAX_STR_LEN)
 
 
 class Post(PublishedModel):
@@ -136,7 +132,4 @@ class Post(PublishedModel):
         ordering = ['-pub_date']
 
     def __str__(self) -> str:
-        return (
-            self.title[:MAX_STR_LEN]
-            + ('...' if len(self.title) > MAX_STR_LEN else '')
-        )
+        return trim_text(self.title, MAX_STR_LEN)
