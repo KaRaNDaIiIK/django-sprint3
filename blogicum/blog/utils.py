@@ -1,10 +1,9 @@
 from django.utils import timezone
 
-from blog.models import Post
-
 
 def get_published_posts():
     """Возвращает queryset опубликованных постов."""
+    from blog.models import Post
     return Post.objects.filter(
         is_published=True,
         pub_date__lte=timezone.now(),
