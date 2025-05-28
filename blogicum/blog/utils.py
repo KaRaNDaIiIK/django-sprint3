@@ -2,7 +2,7 @@ from django.utils import timezone
 
 
 def get_published_posts():
-    '''Возвращает queryset опубликованных постов.'''
+    """Возвращает queryset опубликованных постов."""
     from blog.models import Post
     return Post.objects.filter(
         is_published=True,
@@ -12,5 +12,5 @@ def get_published_posts():
 
 
 def trim_text(text: str, max_len: int) -> str:
-    '''Обрезает текст до указанного лимита символов.'''
+    """Обрезает текст до указанного лимита символов."""
     return text[:max_len] + ('...' if len(text) > max_len else '')
