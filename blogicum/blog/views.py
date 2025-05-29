@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render
 
 from blog.models import Category
 from blog.utils import get_published_posts
-
 from blogicum.settings import MAX_LEN_POST
 
 
